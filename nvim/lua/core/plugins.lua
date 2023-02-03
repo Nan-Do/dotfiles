@@ -96,7 +96,7 @@ return require('packer').startup(function(use)
     config = function()
       vim.g.vimwiki_list = {
         {
-          path = '~/codeforces/description_problems/',
+          path = '~/vimwiki',
           syntax = 'markdown',
           ext  = '.md',
           custom_wiki2html = '~/bin/markdown_py2',
@@ -113,7 +113,7 @@ return require('packer').startup(function(use)
       }
       vim.g.vimwiki_conceal_pre = 1
       -- vim.g.vimwiki_folding = 'expr'
-      -- vim.g.vimwiki_filetypes = {'markdown', 'pandoc'}
+      vim.g.vimwiki_filetypes = {'markdown'}
     end
   }
   use 'preservim/vim-pencil'
