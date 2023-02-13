@@ -14,7 +14,6 @@ local packer_bootstrap = ensure_packer()
 return require('packer').startup(function(use)
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
-  use 'jeffkreeftmeijer/neovim-sensible'
   use 'tpope/vim-commentary'
   use 'nvim-tree/nvim-tree.lua'
   use 'nvim-lualine/lualine.nvim'
@@ -126,6 +125,7 @@ return require('packer').startup(function(use)
     end,
     ft = { "markdown" },
   })
+  use 'jbyuki/nabla.nvim'
 
   use {
     'glepnir/dashboard-nvim',
@@ -140,9 +140,6 @@ return require('packer').startup(function(use)
       vim.o.timeout = true
       vim.o.timeoutlen = 300
       require("which-key").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
       }
     end
   }

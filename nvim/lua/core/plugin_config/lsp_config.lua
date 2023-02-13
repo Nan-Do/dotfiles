@@ -27,7 +27,7 @@ lsp.set_preferences({
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, {}),
 })
 
-require'lspconfig'.sumneko_lua.setup {
+require'lspconfig'.lua_ls.setup {
     settings = {
         Lua = {
             diagnostics = {
