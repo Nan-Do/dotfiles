@@ -1,62 +1,125 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
 
-return require('packer').startup(function(use)
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
-  use 'tpope/vim-commentary'
-  use 'nvim-tree/nvim-tree.lua'
-  use 'nvim-lualine/lualine.nvim'
-  use 'nvim-tree/nvim-web-devicons'
-
-  use {
-    "windwp/nvim-autopairs",
-    config = function() require("nvim-autopairs").setup {} end
-  }
+local plugins = {
+  'tpope/vim-commentary',
+  'nvim-tree/nvim-tree.lua',
+  'nvim-lualine/lualine.nvim',
+  'nvim-tree/nvim-web-devicons',
 
   -- Git
-  use 'tpope/vim-fugitive'
-  use 'airblade/vim-gitgutter'
+  'tpope/vim-fugitive',
+  'airblade/vim-gitgutter',
+
+  -- Autocompletion
+  'hrsh7th/nvim-cmp',
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-cmdline',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-nvim-lua',
+  'hrsh7th/cmp-latex-symbols',
+  'hrsh7th/cmp-nvim-lsp',
+  'hrsh7th/cmp-look',
+  'saadparwaiz1/cmp_luasnip',
+  --  Snippets
+  'L3MON4D3/LuaSnip',
+  -- Snippet collection (Optional)
+  'rafamadriz/friendly-snippets',
+
+  -- LSP
+  'https://github.com/onsails/lspkind.nvim',
+  'VonHeikemen/lsp-zero.nvim',
+  'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim',
+
+  -- Undotree
+  'mbbill/undotree',
+
+  -- Writing enhancements
+  'preservim/vim-pencil',
+  'folke/zen-mode.nvim',
+  'junegunn/limelight.vim',
+
+  -- Math Latex preview
+  'jbyuki/nabla.nvim',
 
   -- Smooth scrolling
-  use 'karb94/neoscroll.nvim'
+  'karb94/neoscroll.nvim',
+
+  -- Background transparency
+  'xiyaowong/nvim-transparent',
+
+  -- This plugin is to use tabs by default
+  -- {'akinsho/bufferline.nvim', tag = "v3.*", dependencies = 'nvim-tree/nvim-web-devicons'}
+
+  -- VimWiki
+  {
+  'vimwiki/vimwiki',
+  init = function()
+      vim.g.vimwiki_list = {
+          {
+              path = '~/Notes/problems/',
+              syntax = 'markdown',
+              ext  = '.md',
+              custom_wiki2html = '~/bin/markdown_py2',
+              nested_syntaxes = {
+                  ['python'] = 'python',
+                  ['c++'] = 'cpp',
+              }
+          }
+      }
+      vim.g.vimwiki_ext2syntax = {
+          ['.md'] = 'markdown',
+          ['.markdown'] = 'markdown',
+          ['.mdown'] = 'markdown',
+      }
+      vim.g.vimwiki_conceal_pre = 1
+      -- vim.g.vimwiki_folding = 'expr'
+      vim.g.vimwiki_filetypes = {'markdown'}
+  end,
+  },
+
+  -- Colorschemes
+  'ellisonleao/gruvbox.nvim',
+  'folke/tokyonight.nvim',
+  'sainnhe/gruvbox-material',
+
+  -- Autopairs
+  {
+  "windwp/nvim-autopairs",
+  config = true
+  },
 
   -- Treesitter
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
-  }
-  use 'nvim-treesitter/playground'
+  'nvim-treesitter/nvim-treesitter',
+  'nvim-treesitter/playground',
 
   -- Telescope
-  use {
-    'nvim-telescope/telescope.nvim', tag = '0.1.1',
-    -- or                            , branch = '0.1.x',
-    requires = { {'nvim-lua/plenary.nvim'} }
-  }
+  {
+    'nvim-telescope/telescope.nvim',
+    tag = '0.1.1',
+    dependencies = { {'nvim-lua/plenary.nvim'} }
+  },
 
   -- Mason
-  use {
+  {
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
     "neovim/nvim-lspconfig",
-  }
-  use 'https://github.com/onsails/lspkind.nvim'
-  use 'VonHeikemen/lsp-zero.nvim'
-  use 'WhoIsSethDaniel/toggle-lsp-diagnostics.nvim'
+  },
 
   -- Tmux navigation
-  use { 'alexghergh/nvim-tmux-navigation', config = function()
+  { 'alexghergh/nvim-tmux-navigation', config = function()
     require'nvim-tmux-navigation'.setup {
       disable_when_zoomed = true, -- defaults to false
       keybindings = {
@@ -69,87 +132,35 @@ return require('packer').startup(function(use)
       }
     }
   end
-  }
+  },
 
-  -- Autocompletion
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/cmp-path'
-  use 'hrsh7th/cmp-nvim-lua'
-  use 'hrsh7th/cmp-latex-symbols'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-look'
-  use 'saadparwaiz1/cmp_luasnip'
-
-  --  Snippets
-  use 'L3MON4D3/LuaSnip'
-  -- Snippet collection (Optional)
-  use 'rafamadriz/friendly-snippets'
-
-  -- Undotree
-  use 'mbbill/undotree'
-
-  -- VimWiki & Markdown
-  use {
-    'vimwiki/vimwiki',
-    config = function()
-      vim.g.vimwiki_list = {
-        {
-          path = '~/vimwiki',
-          syntax = 'markdown',
-          ext  = '.md',
-          custom_wiki2html = '~/bin/markdown_py2',
-          nested_syntaxes = {
-            ['python'] = 'python',
-            ['c++'] = 'cpp',
-          }
-        }
-      }
-      vim.g.vimwiki_ext2syntax = {
-        ['.md'] = 'markdown',
-        ['.markdown'] = 'markdown',
-        ['.mdown'] = 'markdown',
-      }
-      vim.g.vimwiki_conceal_pre = 1
-      -- vim.g.vimwiki_folding = 'expr'
-      vim.g.vimwiki_filetypes = {'markdown'}
-    end
-  }
-  use 'preservim/vim-pencil'
-  use 'folke/zen-mode.nvim'
-  use 'junegunn/limelight.vim'
-  use({ "iamcco/markdown-preview.nvim",
-    run = "cd app && npm install",
-    setup = function()
+  -- Markdown
+  { "iamcco/markdown-preview.nvim",
+    build = "cd app && npm install",
+    init = function()
       vim.g.mkdp_filetypes = { "markdown" }
     end,
     ft = { "markdown" },
-  })
-  use 'jbyuki/nabla.nvim'
+  },
 
-  use {
+  -- Dashboard
+  {
     'glepnir/dashboard-nvim',
-    requires = {'nvim-tree/nvim-web-devicons'}
-  }
-
+    dependencies = {'nvim-tree/nvim-web-devicons'}
+  },
 
   -- Which-key
-  use {
+  {
     "folke/which-key.nvim",
-    config = function()
+    init = function()
       vim.o.timeout = true
       vim.o.timeoutlen = 300
       require("which-key").setup {
       }
     end
-  }
+  },
+}
 
-  -- This plugin is to use tabs by default
-  -- use {'akinsho/bufferline.nvim', tag = "v3.*", requires = 'nvim-tree/nvim-web-devicons'}
+local opts = {}
 
-  -- Colorschemes
-  use 'ellisonleao/gruvbox.nvim'
-  use 'folke/tokyonight.nvim'
-  use 'sainnhe/gruvbox-material'
-end)
+require("lazy").setup(plugins, opts)
