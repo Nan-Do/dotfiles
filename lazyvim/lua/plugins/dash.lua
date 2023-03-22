@@ -11,7 +11,7 @@ return {
       dashboard.button("s", " " .. " Restore Session", [[:lua require("persistence").load() <cr>]]),
       dashboard.button("l", "󰒲 " .. " Lazy", ":Lazy<CR>"),
       dashboard.button("q", " " .. " Quit", ":qa<CR>"),
-      dashboard.button("w", " " .. " Wiki", ":VimwikiIndex<CR>"),
+      dashboard.button("w", " " .. " Wiki", ":e ~/Notes/problems/index.md<CR>:ZenMode<CR>"),
     }
   end,
 }
