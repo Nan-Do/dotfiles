@@ -2,12 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/home/nando/.oh-my-zsh
+export ZSH=$HOME/.oh-my-zsh
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyname"
+ZSH_THEME="robbyrussell"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -58,7 +58,7 @@ ZSH_THEME="robbyname"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git web-search vi-mode zsh-syntax-highlighting pyenv ubuntu colorize)
+plugins=(git web-search vi-mode pyenv zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -97,18 +97,26 @@ export PATH=$HOME/bin:$PATH
 #     RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(git_custom_status) $EPS1"
 #     zle reset-prompt
 # }
- 
+
 # Vi mode
+# Options 
+VI_MODE_SET_CURSOR=true
+VI_MODE_CURSOR_INSERT=5
+VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+MODE_INDICATOR="%F{red}<<<%f"
+# INSERT_MODE_INDICATOR="%F{yellow}+%f"
+# Keybidings
 bindkey -v
 # Set a proper combination to go back to normal mode
 bindkey "jk" vi-cmd-mode
+ 
 # Activate Control+R to do a back search as in bash
-bindkey '^P' up-history
-bindkey '^N' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward
+# bindkey '^P' up-history
+# bindkey '^N' down-history
+# bindkey '^?' backward-delete-char
+# bindkey '^h' backward-delete-char
+# bindkey '^w' backward-kill-word
+# bindkey '^r' history-incremental-search-backward
 
 # zle -N zle-line-init
 # zle -N zle-keymap-select
