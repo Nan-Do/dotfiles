@@ -1,6 +1,4 @@
 return {
-  -- Tables
-  { "godlygeek/tabular" },
   -- Vimwiki
   -- {
   --   "vimwiki/vimwiki",
@@ -27,17 +25,28 @@ return {
   --     vim.g.vimwiki_filetypes = { "markdown" }
   --   end,
   -- },
-  -- Markdown
+  -- {
+  --   "preservim/vim-markdown",
+  --   init = function()
+  --     vim.opt.foldlevelstart = 6
+  --     vim.opt.conceallevel = 2
+  --     vim.g.vim_markdown_no_extensions_in_markdown = 1
+  --     vim.g.vim_markdown_math = 1
+  --     vim.g.vim_markdown_strikethrough = 1
+  --     vim.g.vim_markdown_no_default_key_mappings = 1
+  --   end,
+  -- },
+  -- Tabularize
+  { "godlygeek/tabular" },
+  -- Markdown support not including concealing and syntax highlighting
   {
-    "preservim/vim-markdown",
-    init = function()
-      vim.opt.foldlevelstart = 6
-      vim.opt.conceallevel = 2
-      vim.g.vim_markdown_no_extensions_in_markdown = 1
-      vim.g.vim_markdown_math = 1
-      vim.g.vim_markdown_strikethrough = 1
+    "jakewvincent/mkdnflow.nvim",
+    config = function()
+      require("mkdnflow").setup()
     end,
   },
+  -- Paste images
+  { "img-paste-devs/img-paste.vim" },
   -- Markdown Preview
   {
     "iamcco/markdown-preview.nvim",

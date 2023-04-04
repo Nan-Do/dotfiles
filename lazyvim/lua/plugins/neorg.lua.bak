@@ -1,0 +1,23 @@
+return {
+  {
+    "nvim-neorg/neorg",
+    -- lazy-load on filetype
+    build = ":Neorg sync-parsers", -- This is the important bit!
+    cmd = "Neorg",
+    -- options for neorg. This will automatically call `require("neorg").setup(opts)`
+    opts = {
+      load = {
+        ["core.defaults"] = {},
+        ["core.norg.dirman"] = {
+          config = {
+            workspaces = {
+              work = "~/notes/work",
+              home = "~/notes/home",
+            },
+          },
+        },
+        ["core.norg.concealer"] = {},
+      },
+    },
+  },
+}
