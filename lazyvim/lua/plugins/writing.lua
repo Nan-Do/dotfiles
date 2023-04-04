@@ -40,14 +40,30 @@ return {
         -- callback where you can add custom code when the Zen window opens
         on_open = function(win)
           vim.cmd("Limelight")
-          vim.cmd("PencilSoft")
+          -- vim.cmd("PencilSoft")
         end,
         -- callback where you can add custom code when the Zen window closes
         on_close = function()
           vim.cmd("Limelight!")
-          vim.cmd("PencilOff")
+          -- vim.cmd("PencilOff")
         end,
       })
     end,
+  },
+  -- Chat GPT support
+  {
+    "jackMort/ChatGPT.nvim",
+    config = function()
+      require("chatgpt").setup({
+        keymaps = {
+          submit = "<C-q>",
+        },
+      })
+    end,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "nvim-lua/plenary.nvim",
+      "nvim-telescope/telescope.nvim",
+    },
   },
 }
