@@ -124,3 +124,6 @@ alias vv="tmux new-session \; split-window -h \; attach"
 
 # Avoid sharing the history between active sessions
 unsetopt share_history
+
+# zsh
+  eval "$(fzf --zsh)"
