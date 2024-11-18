@@ -1,14 +1,26 @@
+-- return {
+--   {
+--     "folke/tokyonight.nvim",
+--     opts = {
+--       transparent = true,
+--       styles = {
+--         sidebars = "transparent",
+--         floats = "transparent",
+--       },
+--     },
+--   },
+-- }
 return {
-  -- add gruvbox
-  { "rebelot/kanagawa.nvim" },
-  { "EdenEast/nightfox.nvim" },
-  { "sainnhe/everforest" },
-
-  -- Configure the colorscheme for LazyVim
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "kanagawa",
+      colorscheme = "catppuccin-mocha",
+    },
+  },
+  {
+    "catppuccin",
+    opts = {
+      transparent_background = true,
     },
   },
 }
