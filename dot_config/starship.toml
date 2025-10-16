@@ -1,0 +1,64 @@
+# $HOME/.config/starship.toml
+# Robby Russell like theme from omz
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$character\
+"""
+
+add_newline = false
+
+[username]
+style_user = "green bold"
+style_root = "red bold"
+format = "[$user]($style) "
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+
+format = 'on [$hostname](bold purple) '
+trim_at = "."
+disabled = false
+
+[character]
+success_symbol = "[➜](bold green) "
+error_symbol = "[➜](bold red) "
+vimcmd_symbol = "[➡ ](bold green)" # For use with zsh-vi-mode
+# vicmd_symbol = "[➡](bold green)"
+
+[directory]
+read_only = ' 🔒'
+truncation_length = 1
+truncation_symbol = ""
+fish_style_pwd_dir_length = 1
+
+[git_branch]
+symbol = " "
+format = '[$symbol:\([$branch](bold red)\)](bold blue) '
+
+[git_status]
+style = "bold yellow"
+format = '([\[$all_status$ahead_behind\]]($style) )'
+stashed = "[${count}*](green)" 
+modified = "[${count}+](yellow)" 
+deleted =  "[${count}-](red)" 
+conflicted =  "[${count}~](red)" 
+ahead = "⇡${count}"
+behind = "⇣${count}"
+untracked = "[${count}?](blue)" 
+staged = "[${count}+](green)" 
+
+[git_state]
+style =	"bold red"
+format = "[$state( $progress_current/$progress_total) ]($style)"
+rebase = "rebase"
+merge = "merge"	
+revert = "revert"	
+cherry_pick = "cherry"
+bisect = "bisect"	
+am = "am"	
+am_or_rebase = "am/rebase"

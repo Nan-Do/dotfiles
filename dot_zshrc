@@ -1,0 +1,85 @@
+zvm_after_init() {
+  # I need to put this here because zsh-vi-mode seems to override CTRL+R binding
+  source <(fzf --zsh)
+}
+
+# Created by Zap installer
+[ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "jeffreytse/zsh-vi-mode"
+plug "zap-zsh/supercharge"
+plug "zsh-users/zsh-syntax-highlighting"
+plug "zsh-users/zsh-autosuggestions"
+
+# User configuration
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
+
+# Set a proper combination to go back to normal mode
+ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
+# Set the default editor to nvim
+ZVM_VI_EDITOR='nvim'
+
+# list files with details
+alias ll="ls -larht"
+
+# set the locale of the shell
+export LANG="en_US.UTF-8"
+
+# set the location and filename of the history file
+export HISTFILE="$HOME/.zsh_history"
+
+# set the maximum number of lines to be saved in the history file
+export HISTSIZE="100000"
+export SAVEHIST="$HISTSIZE"
+
+# fzf parameters used in all widgets - configure layout and wrapped the preview results (useful in large command rendering)
+export FZF_DEFAULT_OPTS="--height 100% --layout reverse --preview-window=wrap"
+
+# CTRL + R: put the selected history command in the preview window - "{}" will be replaced by item selected in fzf execution runtime
+export FZF_CTRL_R_OPTS="--preview 'echo {}'"
+
+# CTRL + T: set "fd-find" as search engine instead of "find" and exclude .git for the results
+export FZF_CTRL_T_COMMAND="fd --exclude .git --ignore-file $HOME/.my-custom-zsh/.fd-fzf-ignore"
+
+# CTRL + T: put the file content if item select is a file, or put tree command output if item selected is directory
+export FZF_CTRL_T_OPTS="--preview 'if [ -d {} ]; then tree -C {}; elif [ -n \"\$(file --mime-type -b {} | grep \"^image/\")\" ]; then kitty +kitten icat --clear --transfer-mode=memory --stdin=no --place=\${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 {}; else bat --color=always --style=numbers {}; fi'"
+
+
+# enable comments "#" expressions in the prompt shell
+setopt INTERACTIVE_COMMENTS
+
+# append new history entries to the history file
+setopt APPEND_HISTORY
+
+# save each command to the history file as soon as it is executed
+setopt INC_APPEND_HISTORY
+
+# ignore recording duplicate consecutive commands in the history
+setopt HIST_IGNORE_DUPS
+
+# ignore commands that start with a space in the history
+setopt HIST_IGNORE_SPACE
+
+unsetopt share_history
+
+# Load and initialise completion system
+autoload -Uz compinit
+compinit
+
+# navigate menu for command output
+zstyle ':completion:*:*:*:*:*' menu select
+bindkey '^[[Z' reverse-menu-complete
+
+# Add llama to the path
+path+=('/home/nando/.local/bin/')
+path+=('/home/nando/llama.cpp/build/bin/')
+path+=('/home/nando/.cargo/bin/')
+path+=('/usr/local/bin/')
+
+# starship
+eval "$(starship init zsh)"
