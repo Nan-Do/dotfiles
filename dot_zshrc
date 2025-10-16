@@ -1,5 +1,5 @@
 zvm_after_init() {
-  # I need to put this here because zsh-vi-mode seems to override CTRL+R binding
+  # Put this here because zsh-vi-mode seems to override CTRL+R binding
   source <(fzf --zsh)
 }
 
@@ -25,7 +25,11 @@ ZVM_VI_INSERT_ESCAPE_BINDKEY=jk
 ZVM_VI_EDITOR='nvim'
 
 # list files with details
-alias ll="ls -larht"
+alias ls="eza --icons auto"
+alias ll="ls -larh"
+
+# fix less not showing unicode symbols
+export LESSUTFCHARDEF=E000-F8FF:p,F0000-FFFFD:p,100000-10FFFD:p
 
 # set the locale of the shell
 export LANG="en_US.UTF-8"
@@ -47,8 +51,7 @@ export FZF_CTRL_R_OPTS="--preview 'echo {}'"
 export FZF_CTRL_T_COMMAND="fd --exclude .git --ignore-file $HOME/.my-custom-zsh/.fd-fzf-ignore"
 
 # CTRL + T: put the file content if item select is a file, or put tree command output if item selected is directory
-export FZF_CTRL_T_OPTS="--preview 'if [ -d {} ]; then tree -C {}; elif [ -n \"\$(file --mime-type -b {} | grep \"^image/\")\" ]; then kitty +kitten icat --clear --transfer-mode=memory --stdin=no --place=\${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 {}; else bat --color=always --style=numbers {}; fi'"
-
+export FZF_CTRL_T_OPTS="--preview 'if [ -d {} ]; then eza -tree {}; elif [ -n \"\$(file --mime-type -b {} | grep \"^image/\")\" ]; then kitty +kitten icat --clear --transfer-mode=memory --stdin=no --place=\${FZF_PREVIEW_COLUMNS}x\${FZF_PREVIEW_LINES}@0x0 {}; else bat --color=always --style=numbers {}; fi'"
 
 # enable comments "#" expressions in the prompt shell
 setopt INTERACTIVE_COMMENTS
@@ -65,7 +68,7 @@ setopt HIST_IGNORE_DUPS
 # ignore commands that start with a space in the history
 setopt HIST_IGNORE_SPACE
 
-unsetopt share_history
+unsetopt SHARE_HISTORY
 
 # Load and initialise completion system
 autoload -Uz compinit
@@ -75,11 +78,14 @@ compinit
 zstyle ':completion:*:*:*:*:*' menu select
 bindkey '^[[Z' reverse-menu-complete
 
-# Add llama to the path
+# Update the path
 path+=('/home/nando/.local/bin/')
 path+=('/home/nando/llama.cpp/build/bin/')
 path+=('/home/nando/.cargo/bin/')
 path+=('/usr/local/bin/')
+
+# zoxide
+eval "$(zoxide init zsh)"
 
 # starship
 eval "$(starship init zsh)"
