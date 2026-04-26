@@ -89,3 +89,6 @@ eval "$(zoxide init zsh)"
 
 # starship
 eval "$(starship init zsh)"
+
+# Turso
+export PATH="$PATH:/home/nando/.turso"

@@ -2,10 +2,12 @@
 # Robby Russell like theme from omz
 
 format = """
+$character\
+$hostname\
 $directory\
+$python\
 $git_branch\
 $git_status\
-$character\
 """
 
 add_newline = false
@@ -18,9 +20,9 @@ disabled = false
 show_always = true
 
 [hostname]
-ssh_only = false
+ssh_only = true
 
-format = 'on [$hostname](bold purple) '
+format = '[$hostname](bold purple) '
 trim_at = "."
 disabled = false
 
@@ -62,3 +64,10 @@ cherry_pick = "cherry"
 bisect = "bisect"	
 am = "am"	
 am_or_rebase = "am/rebase"
+
+[python]
+# format='[\[${symbol}${pyenv_prefix}(${version})\]](bold yellow)[(\($virtualenv\) )](bold blue)'
+format = '[$symbol :\([$virtualenv](bold red)\)](bold blue) '
+symbol = '🐍 '
+detect_files = []
+detect_extensions = []

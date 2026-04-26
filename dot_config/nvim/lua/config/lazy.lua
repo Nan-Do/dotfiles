@@ -35,6 +35,16 @@ require("lazy").setup({
         },
       },
     },
+    {
+      "ggml-org/llama.vim",
+      init = function()
+        vim.g.llama_config = {
+          endpoint_fim = "http://192.168.0.145:10000/infill",
+          endpoint_inst = "http://192.168.0.145:10000/v1/chat/completions",
+          auto_fim = false,
+        }
+      end,
+    },
   },
   defaults = {
     -- By default, only LazyVim plugins will be lazy-loaded. Your custom plugins will load during startup.

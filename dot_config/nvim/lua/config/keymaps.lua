@@ -13,3 +13,12 @@ vim.keymap.set("n", "<C-k>", "<cmd>NvimTmuxNavigateUp<cr>")
 vim.keymap.set("n", "<C-l>", "<cmd>NvimTmuxNavigateRight<cr>")
 
 vim.keymap.set({ "n", "v" }, "<leader>p", '"*p', { desc = "Paste from system clipboard" })
+vim.keymap.set(
+  { "n", "v" },
+  "<leader>lt",
+  "<cmd>LlamaToggleAutoFim<cr>",
+  { desc = "Toggle the usage of LLama prediction" }
+)
+vim.keymap.set({ "n", "v" }, "<leader>li", "<cmd>LlamaInstruct<cr>", { desc = "Llama instruct completion" })
+
+vim.keymap.set("n", "<leader>go", "<cmd>Gitsigns diffthis<cr>", { desc = "Diff current file" })
