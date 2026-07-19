@@ -54,11 +54,11 @@
         "items": [
           {
             "name": "Lock",
-            "cmd": "hyprlock -c /home/nando/.config/hypr/hyprlock.conf -g 2"
+            "cmd": "hyprlock"
           },
           {
             "name": "Logout",
-            "cmd": "swaymsg exit"
+            "cmd": "hyprctl dispatch exit"
           },
           {
             "name": "Reboot",
